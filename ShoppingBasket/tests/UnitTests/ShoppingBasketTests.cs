@@ -1,4 +1,7 @@
-﻿using Xunit;
+﻿using ShoppingBasket;
+using System;
+using System.Collections.Generic;
+using Xunit;
 
 namespace UnitTests
 {
@@ -7,7 +10,19 @@ namespace UnitTests
         [Fact]
         public void Given_BreadButterAndMilk_When_Total_Then_SumPrice()
         {
-            Assert.True(false);
+            var basketCalculator = new BasketCalculator();
+
+            var bread = new BasketItem(Guid.NewGuid(), "Bread", 1);
+            var butter = new BasketItem(Guid.NewGuid(), "Butter", 0.8M);
+            var milk = new BasketItem(Guid.NewGuid(), "Milk", 1.15M);
+
+            var cart = new Basket(basketCalculator);
+            cart.AddToBasket(bread);
+            cart.AddToBasket(butter);
+            cart.AddToBasket(milk);
+
+            var result = cart.GetTotals();
+            Assert.True(result.BaseAmount == 2.95M);
         }
 
         [Fact]

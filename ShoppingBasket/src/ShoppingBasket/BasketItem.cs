@@ -10,12 +10,12 @@ namespace ShoppingBasket
     {
         private int _quantity = 0;
 
-        public BasketItem(Guid id, string name, decimal unitPrice, int? quantity)
+        public BasketItem(Guid id, string name, decimal unitPrice, int quantity = 1)
         {
             Id = id;
             Name = name;
             UnitPrice = unitPrice;
-            _quantity = quantity ?? 1;
+            _quantity = quantity;
             Discounts = new List<ProductDiscount>();
         }
 

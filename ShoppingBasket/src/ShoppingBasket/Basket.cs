@@ -7,18 +7,15 @@ namespace ShoppingBasket
     /// <summary>
     /// Basket Facade.
     /// </summary>
-    public class Basket
+    public class Basket : IBasket
     {
+        private readonly IBasketCalculator _basketCalculator;
         private ICollection<BasketItem> _basketItems;
 
-        public Basket()
+        public Basket(IBasketCalculator basketCalculator)
         {
+            _basketCalculator = basketCalculator;
             _basketItems = new List<BasketItem>();
-        }
-
-        public Basket(ICollection<BasketItem> basketItems)
-        {
-            _basketItems = basketItems;
         }
 
         public IEnumerable<BasketItem> BasketItems => _basketItems;
@@ -44,9 +41,9 @@ namespace ShoppingBasket
                 _basketItems.Remove(existing);
         }
 
-        public void GetTotals()
+        public BasketResult GetTotals()
         {
-            // TODO: IMPLEMENT THIS.
+            return _basketCalculator.Calculate(BasketItems);
         }
     }
 }
