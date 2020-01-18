@@ -1,7 +1,17 @@
-﻿namespace ShoppingBasket
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace ShoppingBasket
 {
     public class BasketResult
     {
-        public decimal BaseAmount { get; set; }
+        public BasketResult()
+        {
+            BasketItemResults = new List<BasketItemResult>();
+        }
+
+        public decimal BaseAmount => BasketItemResults.Sum(p => p.BaseAmount);
+
+        public ICollection<BasketItemResult> BasketItemResults { get; set; }
     }
 }
