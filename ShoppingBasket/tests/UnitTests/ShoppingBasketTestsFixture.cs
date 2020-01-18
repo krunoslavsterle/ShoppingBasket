@@ -1,16 +1,20 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using ShoppingBasket;
 using System;
 using System.Collections.Generic;
+using Xunit.Abstractions;
 
 namespace UnitTests
 {
     public class ShoppingBasketTestsFixture
     {
-        public ShoppingBasketTestsFixture()
+        public ShoppingBasketTestsFixture(ITestOutputHelper outputHelper)
         {
             // Setup DI.
             var serviceCollection = new ServiceCollection();
+
+            serviceCollection.AddLogging((builder) => builder.AddXUnit(outputHelper));
             serviceCollection.AddShoppingBasketDependencies();
 
             ServiceProvider = serviceCollection.BuildServiceProvider();
@@ -34,5 +38,23 @@ namespace UnitTests
 
         public IServiceProvider ServiceProvider { get; }
         public IEnumerable<BasketItem> Products { get; }
+    }
+
+    public class MockLogger : ILogger
+    {
+        public IDisposable BeginScope<TState>(TState state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsEnabled(LogLevel logLevel)
+        {
+            return true;
+        }
+
+        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+        {
+            Console.WriteLine(state.ToString());
+        }
     }
 }

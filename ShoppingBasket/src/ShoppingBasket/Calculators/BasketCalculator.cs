@@ -26,12 +26,14 @@ namespace ShoppingBasket
             foreach (var bItem in basketItems)
             {
                 var discountResult = _discountCalculator.Calculate(basketItems, bItem.Id);
+                var baseAmount = bItem.UnitPrice * bItem.Quantity;
                 var itemResult = new BasketItemResult
                 {
-                    BaskettemId = bItem.Id,
-                    BaseAmount = bItem.UnitPrice * bItem.Quantity,
+                    BasketItemId = bItem.Id,
+                    BaseAmount = baseAmount,
                     Quantity = bItem.Quantity,
                     UnitPrice = bItem.UnitPrice,
+                    TotalAmount = baseAmount - discountResult.TotalDiscount,
                     Discount = discountResult
                 };
 

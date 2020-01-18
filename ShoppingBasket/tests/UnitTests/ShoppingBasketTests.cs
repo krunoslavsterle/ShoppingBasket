@@ -2,16 +2,16 @@
 using System.Linq;
 using Xunit;
 using Microsoft.Extensions.DependencyInjection;
-
+using Xunit.Abstractions;
 
 namespace UnitTests
 {
     public class ShoppingBasketTests
     {
         ShoppingBasketTestsFixture _fixture;
-        public ShoppingBasketTests()
+        public ShoppingBasketTests(ITestOutputHelper outputHelper)
         {
-            _fixture = new ShoppingBasketTestsFixture();
+            _fixture = new ShoppingBasketTestsFixture(outputHelper);
         }
 
         [Fact]
