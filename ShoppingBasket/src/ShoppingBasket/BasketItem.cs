@@ -30,5 +30,10 @@ namespace ShoppingBasket
         {
             _quantity = quantity;
         }
+
+        public void AddDiscount(ProductDiscount discount)
+        {
+            Discounts.Add(discount);
+        }
     }
 }

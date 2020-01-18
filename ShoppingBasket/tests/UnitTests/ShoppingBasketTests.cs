@@ -1,47 +1,78 @@
-﻿using ShoppingBasket;
-using System;
-using System.Collections.Generic;
+﻿using System.Linq;
 using Xunit;
 
 namespace UnitTests
 {
     public class ShoppingBasketTests
     {
+        ShoppingBasketTestsFixture _fixture;
+        public ShoppingBasketTests()
+        {
+            _fixture = new ShoppingBasketTestsFixture();
+        }
+
         [Fact]
         public void Given_BreadButterAndMilk_When_Total_Then_SumPrice()
         {
-            var discountCalculator = new DiscountCalculator();
-            var basketCalculator = new BasketCalculator(discountCalculator);
+            var basket = _fixture.CreateBasket();
 
-            var bread = new BasketItem(Guid.NewGuid(), "Bread", 1);
-            var butter = new BasketItem(Guid.NewGuid(), "Butter", 0.8M);
-            var milk = new BasketItem(Guid.NewGuid(), "Milk", 1.15M);
+            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Bread"));
+            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Butter"));
+            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Milk"));
 
-            var cart = new Basket(basketCalculator);
-            cart.AddToBasket(bread);
-            cart.AddToBasket(butter);
-            cart.AddToBasket(milk);
-
-            var result = cart.GetTotals();
-            Assert.True(result.BaseAmount == 2.95M);
+            var result = basket.GetTotals();
+            Assert.True(result.TotalAmount == 2.95M);
         }
 
         [Fact]
         public void Given_TwoButterTwoBread_When_Total_Than_IncludeDiscount()
         {
-            Assert.True(false);
+            var basket = _fixture.CreateBasket();
+
+            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Bread"));
+            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Bread"));
+            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Butter"));
+            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Butter"));
+
+            var result = basket.GetTotals();
+            Assert.True(result.TotalAmount == 3.10M);
         }
 
         [Fact]
         public void Given_FourMilk_When_Total_Than_IncludeDiscount()
         {
-            Assert.True(false);
+            var basket = _fixture.CreateBasket();
+
+            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Milk"));
+            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Milk"));
+            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Milk"));
+            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Milk"));
+
+            var result = basket.GetTotals();
+            Assert.True(result.TotalAmount == 3.45M);
         }
 
         [Fact]
         public void Given_TwoButterOneBreadEightMilk_When_Total_Than_IncludeDiscount()
         {
-            Assert.True(false);
+            var basket = _fixture.CreateBasket();
+
+            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Butter"));
+            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Butter"));
+
+            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Bread"));
+
+            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Milk"));
+            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Milk"));
+            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Milk"));
+            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Milk"));
+            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Milk"));
+            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Milk"));
+            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Milk"));
+            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Milk"));
+
+            var result = basket.GetTotals();
+            Assert.True(result.TotalAmount == 9M);
         }
     }
 }
