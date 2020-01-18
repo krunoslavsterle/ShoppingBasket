@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using ShoppingBasket;
+using System.Linq;
 using Xunit;
+using Microsoft.Extensions.DependencyInjection;
+
 
 namespace UnitTests
 {
@@ -14,7 +17,7 @@ namespace UnitTests
         [Fact]
         public void Given_BreadButterAndMilk_When_Total_Then_SumPrice()
         {
-            var basket = _fixture.CreateBasket();
+            var basket = _fixture.ServiceProvider.GetRequiredService<IBasket>();
 
             basket.AddToBasket(_fixture.Products.First(p => p.Name == "Bread"));
             basket.AddToBasket(_fixture.Products.First(p => p.Name == "Butter"));
@@ -27,7 +30,7 @@ namespace UnitTests
         [Fact]
         public void Given_TwoButterTwoBread_When_Total_Than_IncludeDiscount()
         {
-            var basket = _fixture.CreateBasket();
+            var basket = _fixture.ServiceProvider.GetRequiredService<IBasket>();
 
             basket.AddToBasket(_fixture.Products.First(p => p.Name == "Bread"));
             basket.AddToBasket(_fixture.Products.First(p => p.Name == "Bread"));
@@ -41,7 +44,7 @@ namespace UnitTests
         [Fact]
         public void Given_FourMilk_When_Total_Than_IncludeDiscount()
         {
-            var basket = _fixture.CreateBasket();
+            var basket = _fixture.ServiceProvider.GetRequiredService<IBasket>();
 
             basket.AddToBasket(_fixture.Products.First(p => p.Name == "Milk"));
             basket.AddToBasket(_fixture.Products.First(p => p.Name == "Milk"));
@@ -55,7 +58,7 @@ namespace UnitTests
         [Fact]
         public void Given_TwoButterOneBreadEightMilk_When_Total_Than_IncludeDiscount()
         {
-            var basket = _fixture.CreateBasket();
+            var basket = _fixture.ServiceProvider.GetRequiredService<IBasket>();
 
             basket.AddToBasket(_fixture.Products.First(p => p.Name == "Butter"));
             basket.AddToBasket(_fixture.Products.First(p => p.Name == "Butter"));
