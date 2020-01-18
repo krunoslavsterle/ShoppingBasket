@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace ShoppingBasket
 {
@@ -8,6 +7,13 @@ namespace ShoppingBasket
     /// </summary>
     public class BasketCalculator : IBasketCalculator
     {
+        private readonly IDiscountCalculator _discountCalculator;
+
+        public BasketCalculator(IDiscountCalculator discountCalculator)
+        {
+            _discountCalculator = discountCalculator;
+        }
+
         /// <summary>
         /// Calculate the Basket totals.
         /// </summary>
@@ -19,17 +25,17 @@ namespace ShoppingBasket
 
             foreach (var bItem in basketItems)
             {
+                var discountResult = _discountCalculator.Calculate(basketItems, bItem.Id);
                 var itemResult = new BasketItemResult
                 {
                     BaskettemId = bItem.Id,
                     BaseAmount = bItem.UnitPrice * bItem.Quantity,
                     Quantity = bItem.Quantity,
-                    UnitPrice = bItem.UnitPrice
+                    UnitPrice = bItem.UnitPrice,
+                    Discount = discountResult
                 };
 
                 result.BasketItemResults.Add(itemResult);
-                // calculate discounts...
-
             }
 
             return result;

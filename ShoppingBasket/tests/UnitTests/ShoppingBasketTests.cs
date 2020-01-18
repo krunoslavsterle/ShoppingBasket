@@ -10,7 +10,8 @@ namespace UnitTests
         [Fact]
         public void Given_BreadButterAndMilk_When_Total_Then_SumPrice()
         {
-            var basketCalculator = new BasketCalculator();
+            var discountCalculator = new DiscountCalculator();
+            var basketCalculator = new BasketCalculator(discountCalculator);
 
             var bread = new BasketItem(Guid.NewGuid(), "Bread", 1);
             var butter = new BasketItem(Guid.NewGuid(), "Butter", 0.8M);

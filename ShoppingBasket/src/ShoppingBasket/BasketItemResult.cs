@@ -8,5 +8,6 @@ namespace ShoppingBasket
         public decimal UnitPrice { get; set; }
         public int Quantity { get; set; }
         public decimal BaseAmount { get; set; }
+        public DiscountResult Discount { get; set; }
     }
 }
