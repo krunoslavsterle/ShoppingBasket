@@ -77,5 +77,21 @@ namespace UnitTests
             var result = basket.GetTotals();
             Assert.True(result.TotalAmount == 9M);
         }
+
+        [Fact]
+        public void Given_TwoButterTwoBread_When_RemoveBread_Than_RemoveOneBreadFromBasket()
+        {
+            var basket = _fixture.ServiceProvider.GetRequiredService<IBasket>();
+            var breadProduct = _fixture.Products.First(p => p.ProductName == "Bread");
+
+            basket.AddToBasket(_fixture.Products.First(p => p.ProductName == "Butter"));
+            basket.AddToBasket(_fixture.Products.First(p => p.ProductName == "Butter"));
+
+            basket.AddToBasket(breadProduct);
+            basket.AddToBasket(breadProduct);
+
+            basket.RemoveFromBasket(_fixture.Products.First(p => p.ProductName == "Bread").ProductId);
+            Assert.True(basket.BasketItems.Single(p => p.ProductId == breadProduct.ProductId).Quantity == 1);
+        }
     }
 }
