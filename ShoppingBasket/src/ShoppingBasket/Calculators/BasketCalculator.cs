@@ -9,6 +9,10 @@ namespace ShoppingBasket
     {
         private readonly IDiscountCalculator _discountCalculator;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BasketCalculator"/> class.
+        /// </summary>
+        /// <param name="discountCalculator">The discount calculator.</param>
         public BasketCalculator(IDiscountCalculator discountCalculator)
         {
             _discountCalculator = discountCalculator;
@@ -25,16 +29,16 @@ namespace ShoppingBasket
 
             foreach (var bItem in basketItems)
             {
-                var discountResult = _discountCalculator.Calculate(basketItems, bItem.Id);
+                var discountResult = _discountCalculator.Calculate(basketItems, bItem.ProductId);
                 var baseAmount = bItem.UnitPrice * bItem.Quantity;
                 var itemResult = new BasketItemResult
                 {
-                    BasketItemId = bItem.Id,
+                    ProductId = bItem.ProductId,
                     BaseAmount = baseAmount,
                     Quantity = bItem.Quantity,
                     UnitPrice = bItem.UnitPrice,
                     TotalAmount = baseAmount - discountResult.TotalDiscount,
-                    Discount = discountResult
+                    DiscountResult = discountResult
                 };
 
                 result.BasketItemResults.Add(itemResult);

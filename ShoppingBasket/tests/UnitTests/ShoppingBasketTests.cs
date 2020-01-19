@@ -19,9 +19,9 @@ namespace UnitTests
         {
             var basket = _fixture.ServiceProvider.GetRequiredService<IBasket>();
 
-            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Bread"));
-            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Butter"));
-            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Milk"));
+            basket.AddToBasket(_fixture.Products.First(p => p.ProductName == "Bread"));
+            basket.AddToBasket(_fixture.Products.First(p => p.ProductName == "Butter"));
+            basket.AddToBasket(_fixture.Products.First(p => p.ProductName == "Milk"));
 
             var result = basket.GetTotals();
             Assert.True(result.TotalAmount == 2.95M);
@@ -32,10 +32,10 @@ namespace UnitTests
         {
             var basket = _fixture.ServiceProvider.GetRequiredService<IBasket>();
 
-            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Bread"));
-            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Bread"));
-            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Butter"));
-            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Butter"));
+            basket.AddToBasket(_fixture.Products.First(p => p.ProductName == "Bread"));
+            basket.AddToBasket(_fixture.Products.First(p => p.ProductName == "Bread"));
+            basket.AddToBasket(_fixture.Products.First(p => p.ProductName == "Butter"));
+            basket.AddToBasket(_fixture.Products.First(p => p.ProductName == "Butter"));
 
             var result = basket.GetTotals();
             Assert.True(result.TotalAmount == 3.10M);
@@ -46,10 +46,10 @@ namespace UnitTests
         {
             var basket = _fixture.ServiceProvider.GetRequiredService<IBasket>();
 
-            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Milk"));
-            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Milk"));
-            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Milk"));
-            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Milk"));
+            basket.AddToBasket(_fixture.Products.First(p => p.ProductName == "Milk"));
+            basket.AddToBasket(_fixture.Products.First(p => p.ProductName == "Milk"));
+            basket.AddToBasket(_fixture.Products.First(p => p.ProductName == "Milk"));
+            basket.AddToBasket(_fixture.Products.First(p => p.ProductName == "Milk"));
 
             var result = basket.GetTotals();
             Assert.True(result.TotalAmount == 3.45M);
@@ -60,19 +60,19 @@ namespace UnitTests
         {
             var basket = _fixture.ServiceProvider.GetRequiredService<IBasket>();
 
-            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Butter"));
-            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Butter"));
+            basket.AddToBasket(_fixture.Products.First(p => p.ProductName == "Butter"));
+            basket.AddToBasket(_fixture.Products.First(p => p.ProductName == "Butter"));
 
-            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Bread"));
+            basket.AddToBasket(_fixture.Products.First(p => p.ProductName == "Bread"));
 
-            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Milk"));
-            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Milk"));
-            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Milk"));
-            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Milk"));
-            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Milk"));
-            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Milk"));
-            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Milk"));
-            basket.AddToBasket(_fixture.Products.First(p => p.Name == "Milk"));
+            basket.AddToBasket(_fixture.Products.First(p => p.ProductName == "Milk"));
+            basket.AddToBasket(_fixture.Products.First(p => p.ProductName == "Milk"));
+            basket.AddToBasket(_fixture.Products.First(p => p.ProductName == "Milk"));
+            basket.AddToBasket(_fixture.Products.First(p => p.ProductName == "Milk"));
+            basket.AddToBasket(_fixture.Products.First(p => p.ProductName == "Milk"));
+            basket.AddToBasket(_fixture.Products.First(p => p.ProductName == "Milk"));
+            basket.AddToBasket(_fixture.Products.First(p => p.ProductName == "Milk"));
+            basket.AddToBasket(_fixture.Products.First(p => p.ProductName == "Milk"));
 
             var result = basket.GetTotals();
             Assert.True(result.TotalAmount == 9M);

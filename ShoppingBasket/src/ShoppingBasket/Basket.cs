@@ -37,7 +37,7 @@ namespace ShoppingBasket
         /// <param name="basketItem">The basket item.</param>
         public void AddToBasket(BasketItem basketItem)
         {
-            var existing = _basketItems.FirstOrDefault(p => p.Id == basketItem.Id);
+            var existing = _basketItems.FirstOrDefault(p => p.ProductId == basketItem.ProductId);
             if (existing == null)
                 _basketItems.Add(basketItem);
             else
@@ -50,7 +50,7 @@ namespace ShoppingBasket
         /// <param name="id">The basket item identifier.</param>
         public void RemoveFromBasket(Guid id)
         {
-            var existing = _basketItems.FirstOrDefault(p => p.Id == id);
+            var existing = _basketItems.FirstOrDefault(p => p.ProductId == id);
             if (existing == null)
                 return;
 
@@ -68,27 +68,30 @@ namespace ShoppingBasket
         {
             var result = _basketCalculator.Calculate(BasketItems);
             if (_logger != null)
-            {
-                var message = new StringBuilder();
-                message.AppendLine(".GetTotals()");
-                message.AppendLine($"\tBase Amount: {result.BaseAmount.ToString("c")}");
-                message.AppendLine($"\tTotal Discount: {result.DiscountAmount.ToString("c")}");
-                message.AppendLine($"\tTotal Amount: {result.TotalAmount.ToString("c")}");
-                message.AppendLine($"\tItems:");
-
-                foreach (var item in result.BasketItemResults)
-                {
-                    message.AppendLine($"\t\tProductId: {item.BasketItemId}; Quantity: {item.Quantity}; Base Amount: {item.BaseAmount.ToString("c")}; TotalAmount: {item.TotalAmount.ToString("c")};");
-                    
-                    if (item.Discount.AppliedDiscounts.Any())
-                        foreach (var discount in item.Discount.AppliedDiscounts)
-                            message.AppendLine($"\t\t\tApplied Discount: {discount.Key}; Number of times applied: {discount.Value}; Total Discount Amount: {item.Discount.TotalDiscount.ToString("c")}");
-                }
-                
-                _logger.LogInformation(message.ToString());
-            }
+                LogTotals(result);
 
             return result;
+        }
+
+        private void LogTotals(BasketResult result)
+        {
+            var message = new StringBuilder();
+            message.AppendLine(".GetTotals()");
+            message.AppendLine($"\tBase Amount: {result.BaseAmount.ToString("c")}");
+            message.AppendLine($"\tTotal Discount: {result.DiscountAmount.ToString("c")}");
+            message.AppendLine($"\tTotal Amount: {result.TotalAmount.ToString("c")}");
+            message.AppendLine($"\tItems:");
+
+            foreach (var item in result.BasketItemResults)
+            {
+                message.AppendLine($"\t\tProductId: {item.ProductId}; Quantity: {item.Quantity}; Base Amount: {item.BaseAmount.ToString("c")}; TotalAmount: {item.TotalAmount.ToString("c")};");
+
+                if (item.DiscountResult.AppliedDiscounts.Any())
+                    foreach (var discount in item.DiscountResult.AppliedDiscounts)
+                        message.AppendLine($"\t\t\tApplied Discount: {discount.Key}; Number of times applied: {discount.Value}; Total Discount Amount: {item.DiscountResult.TotalDiscount.ToString("c")}");
+            }
+
+            _logger.LogInformation(message.ToString());
         }
     }
 }

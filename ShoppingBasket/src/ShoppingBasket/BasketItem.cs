@@ -9,31 +9,68 @@ namespace ShoppingBasket
     public class BasketItem
     {
         private int _quantity = 0;
+        private ICollection<ProductDiscount> _discounts;
 
-        public BasketItem(Guid id, string name, decimal unitPrice, int quantity = 1)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BasketItem"/> class.
+        /// </summary>
+        /// <param name="productId">The product identifier.</param>
+        /// <param name="productName">The product name.</param>
+        /// <param name="unitPrice">The price of one unit.</param>
+        /// <param name="quantity">The product quantity.</param>
+        public BasketItem(Guid productId, string productName, decimal unitPrice, int quantity = 1)
         {
-            Id = id;
-            Name = name;
+            ProductId = productId;
+            ProductName = productName;
             UnitPrice = unitPrice;
             _quantity = quantity;
-            Discounts = new List<ProductDiscount>();
+            _discounts = new List<ProductDiscount>();
         }
 
-        public Guid Id { get; }
-        public string Name { get; }
-        public decimal UnitPrice { get; }
-        public int Quantity => _quantity;
-        
-        public ICollection<ProductDiscount> Discounts { get; }
+        /// <summary>
+        /// Gets the product identifier.
+        /// </summary>
+        public Guid ProductId { get; }
 
+        /// <summary>
+        /// Gets the product name.
+        /// </summary>
+        public string ProductName { get; }
+
+        /// <summary>
+        /// Gets the unit price.
+        /// </summary>
+        public decimal UnitPrice { get; }
+
+        /// <summary>
+        /// Gets the quantity.
+        /// </summary>
+        public int Quantity => _quantity;
+
+        /// <summary>
+        /// Gets the discounts.
+        /// </summary>
+        public IEnumerable<ProductDiscount> Discounts => _discounts;
+
+        /// <summary>
+        /// Updates the quantity.
+        /// </summary>
+        /// <param name="quantity">The new quantity.</param>
         public void UpdateQuantity(int quantity)
         {
+            if (quantity < 0)
+                throw new ArgumentOutOfRangeException("Quantity must be greater than 0");
+
             _quantity = quantity;
         }
 
+        /// <summary>
+        /// Adds a new discount.
+        /// </summary>
+        /// <param name="discount">The new discount.</param>
         public void AddDiscount(ProductDiscount discount)
         {
-            Discounts.Add(discount);
+            _discounts.Add(discount);
         }
     }
 }

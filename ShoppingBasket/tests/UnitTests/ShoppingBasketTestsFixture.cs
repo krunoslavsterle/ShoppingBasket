@@ -26,11 +26,11 @@ namespace UnitTests
 
             // Create discounts.
             var breadDiscount = new ProductDiscount("Buy two butters, get one bread at 50% off", 50);
-            breadDiscount.AddCondition(butter.Id, 2);
+            breadDiscount.AddCondition(butter.ProductId, 2);
             bread.AddDiscount(breadDiscount);
 
             var milkDiscount = new ProductDiscount("Buy three milks, get fourth for free", 100);
-            milkDiscount.AddCondition(milk.Id, 3);
+            milkDiscount.AddCondition(milk.ProductId, 3);
             milk.AddDiscount(milkDiscount);
 
             Products = new List<BasketItem> { bread, butter, milk };

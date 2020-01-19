@@ -14,11 +14,11 @@ namespace ShoppingBasket
         /// </summary>
         /// <param name="basketItems">The collection of <see cref="BasketItem"/>.</param>
         /// <param name="productId">The product identifier for which to calculate discounts.</param>
-        /// <returns>The <see cref="DiscountResult"/>.</returns>
+        /// <returns></returns>
         public DiscountResult Calculate(IEnumerable<BasketItem> basketItems, Guid productId)
         {
             var result = new DiscountResult();
-            var basketItem = basketItems.First(p => p.Id == productId);
+            var basketItem = basketItems.First(p => p.ProductId == productId);
             
             foreach(var discount in basketItem.Discounts)
             {
@@ -26,7 +26,7 @@ namespace ShoppingBasket
                 foreach(var condition in discount.DiscountConditions)
                 {
                     // check if there is condition product present in the basket, if not, skip this discount.
-                    var conditionBItem = basketItems.SingleOrDefault(p => p.Id == condition.ProductId);
+                    var conditionBItem = basketItems.SingleOrDefault(p => p.ProductId == condition.ProductId);
                     if (conditionBItem == null)
                     {
                         appliedNo = 0;
@@ -54,7 +54,7 @@ namespace ShoppingBasket
 
         private int ValidateDiscountCondition(DiscountCondition discountCondition, BasketItem basketItem)
         {
-            // Calculate the number of times the discount can be applied based on this condition.
+            // calculate the number of times the discount can be applied based on this condition.
             return (int)(basketItem.Quantity / discountCondition.Quantity);
         }
     }

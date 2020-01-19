@@ -13,7 +13,7 @@ namespace ShoppingBasket
         /// </summary>
         /// <param name="basketItems">The collection of <see cref="BasketItem"/>.</param>
         /// <param name="productId">The product identifier for which to calculate discounts.</param>
-        /// <returns>The <see cref="DiscountResult"/>.</returns>
+        /// <returns></returns>
         DiscountResult Calculate(IEnumerable<BasketItem> basketItems, Guid productId);
     }
 }
